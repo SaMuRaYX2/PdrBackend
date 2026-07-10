@@ -21,10 +21,10 @@ builder.Services.AddCors(options => { options.AddPolicy("AllowFrontend", policy 
     {
         policy.WithOrigins(
                 "http://localhost:3000", 
-                "http://localhost:5173", 
                 "http://localhost:5125",
                 "https://traffic-rules.netlify.app", 
-                "https://pdr-tests.netlify.app"
+                "https://pdr-tests.netlify.app",
+                "https://lustrous-begonia-39635f.netlify.app"
             )
             .AllowAnyHeader()
             .AllowAnyMethod()
