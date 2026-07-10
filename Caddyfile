@@ -1,0 +1,3 @@
+pdr-api-2026.duckdns.org {
+    reverse_proxy backend:8080
+}
