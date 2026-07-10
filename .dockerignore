@@ -1,0 +1,9 @@
+bin/
+obj/
+.idea/
+.vscode/
+.git/
+node_modules/
+dist/
+wwwroot/images/
+app.db

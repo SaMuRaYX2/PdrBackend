@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrafficRules.Api", "TrafficRules.Api\TrafficRules.Api.csproj", "{3C0B7572-E76A-49B5-8880-287CBB62B6F3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrafficRules.Domain", "TrafficRules.Domain\TrafficRules.Domain.csproj", "{0DA1335C-C025-4CDB-B970-523D8D191FED}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrafficRules.Application", "TrafficRules.Application\TrafficRules.Application.csproj", "{618270E6-4A19-419E-888A-A7DA2449A8D7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrafficRules.Infrastructure", "TrafficRules.Infrastructure\TrafficRules.Infrastructure.csproj", "{27CD92B0-3212-461D-917C-2960B83CC33F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3C0B7572-E76A-49B5-8880-287CBB62B6F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C0B7572-E76A-49B5-8880-287CBB62B6F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C0B7572-E76A-49B5-8880-287CBB62B6F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C0B7572-E76A-49B5-8880-287CBB62B6F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0DA1335C-C025-4CDB-B970-523D8D191FED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0DA1335C-C025-4CDB-B970-523D8D191FED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0DA1335C-C025-4CDB-B970-523D8D191FED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0DA1335C-C025-4CDB-B970-523D8D191FED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{618270E6-4A19-419E-888A-A7DA2449A8D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{618270E6-4A19-419E-888A-A7DA2449A8D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{618270E6-4A19-419E-888A-A7DA2449A8D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{618270E6-4A19-419E-888A-A7DA2449A8D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{27CD92B0-3212-461D-917C-2960B83CC33F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27CD92B0-3212-461D-917C-2960B83CC33F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27CD92B0-3212-461D-917C-2960B83CC33F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{27CD92B0-3212-461D-917C-2960B83CC33F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
