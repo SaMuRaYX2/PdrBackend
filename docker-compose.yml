@@ -9,6 +9,7 @@ services:
     restart: always
     volumes:
       - app_data:/app/data
+      - app_images:/app/wwwroot/images
     expose:
       - "8080" # Exposed only internally to Caddy
 
@@ -28,5 +29,6 @@ services:
 
 volumes:
   app_data:
+  app_images:
   caddy_data:
   caddy_config:
