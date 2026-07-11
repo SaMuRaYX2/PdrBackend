@@ -1,4 +1,4 @@
-﻿namespace TrafficRules.Api.Controllers;
+namespace TrafficRules.Api.Controllers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using TrafficRules.Domain.Entities;
@@ -54,9 +54,10 @@ public class AuthController : ControllerBase
             await _signInManager.SignInAsync(user, isPersistent: true);
             return Ok(new { message = "Успішний вхід через Google!"});
         }
-        catch (InvalidJwtException)
+        catch (InvalidJwtException ex)
         {
-            return Unauthorized("Недійсний Google токен.");
+            Console.WriteLine($"Google token validation failed: {ex.Message}");
+            return Unauthorized($"Недійсний Google токен: {ex.Message}");
         }
     }
 }
