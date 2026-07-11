@@ -8,8 +8,8 @@ services:
     container_name: pdr-backend
     restart: always
     volumes:
-      - app_data:/app/data
-      - app_images:/app/wwwroot/images
+      - ./data:/app/data
+      - ./images:/app/wwwroot/images
     expose:
       - "8080" # Exposed only internally to Caddy
 
@@ -28,7 +28,5 @@ services:
       - backend
 
 volumes:
-  app_data:
-  app_images:
   caddy_data:
   caddy_config:
