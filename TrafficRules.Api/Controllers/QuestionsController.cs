@@ -67,4 +67,13 @@ public class QuestionsController : ControllerBase
         var result = await _questionsService.CheckTextAnswerAsync(id, userAnswer);
         return Ok(result);
     }
+
+    [Authorize(Roles = "Admin")]
+    [HttpDelete("{id:guid}")]
+    public async Task<IActionResult> DeleteQuestion(Guid id)
+    {
+        var deleted = await _questionsService.DeleteQuestionAsync(id);
+        if (!deleted) return NotFound();
+        return NoContent();
+    }
 }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query.Internal;
 using TrafficRules.Domain.Entities;
 using TrafficRules.Domain.Interfaces;
 using TrafficRules.Infrastructure.Data;
@@ -36,5 +37,14 @@ public class QuestionRepository : IQuestionRepository
     public async Task SaveChangesAsync()
     {
         await _context.SaveChangesAsync();
+    }
+
+    public async Task DeleteAsync(Guid id)
+    {
+        var question = await _context.Questions.FindAsync(id);
+        if (question != null)
+        {
+            _context.Questions.Remove(question);
+        }
     }
 }

@@ -12,5 +12,6 @@ public interface IQuestionsService
     Task<AnswerResultDto> CheckSequenceAsync(Guid questionId, List<Guid> orderedAnswerIds);
     // NEW: For NumberInput and ShortAnswer types - check text answer
     Task<AnswerResultDto> CheckTextAnswerAsync(Guid questionId, string userAnswer);
+    Task<bool> DeleteQuestionAsync(Guid id); 
     
 }

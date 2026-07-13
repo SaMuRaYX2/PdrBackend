@@ -16,7 +16,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddControllers();
 
 // To telegram bot audit background
-builder.Services.AddHostedService<TelegramBotService>();
+builder.Services.AddSingleton<TelegramBotService>();
+builder.Services.AddHostedService(provider => provider.GetRequiredService<TelegramBotService>());
 builder.Services.AddCors(options => { options.AddPolicy("AllowFrontend", policy =>
     {
         policy.WithOrigins(
@@ -37,7 +38,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     );
 
 builder.Services.AddIdentityApiEndpoints<ApplicationUser>()
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
+    
 
 builder.Services.ConfigureApplicationCookie(options =>
 {

@@ -106,6 +106,16 @@ public class QuestionService : IQuestionsService
         };
     }
 
+    public async Task<bool> DeleteQuestionAsync(Guid id)
+    {
+        var question = await _repository.GetByIdAsync(id);
+        if (question == null) return false;
+        
+        await _repository.DeleteAsync(id);
+        await _repository.SaveChangesAsync();
+        return true;
+    }
+
     private static QuestionDto MapToDto(Question q)
     {
         return new QuestionDto

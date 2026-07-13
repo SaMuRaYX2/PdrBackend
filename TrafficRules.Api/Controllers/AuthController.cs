@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Authorization;
+
 namespace TrafficRules.Api.Controllers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -59,5 +61,26 @@ public class AuthController : ControllerBase
             Console.WriteLine($"Google token validation failed: {ex.Message}");
             return Unauthorized($"Недійсний Google токен: {ex.Message}");
         }
+    }
+    [Authorize( Roles = "Admin")]
+    [HttpPost("make-me-admin")]
+    public async Task<IActionResult> MakeMeAdmin([FromBody] string email)
+    {
+        var user = await _userManager.FindByEmailAsync(email);
+        if (user == null) return NotFound("User is not found");
+
+        if (!await _userManager.IsInRoleAsync(user, "Admin"))
+        {
+            await _userManager.AddToRoleAsync(user, "Admin");
+        }
+        
+        return Ok(new {message = "Вам надано права адміністратора. Перезайдіть у систему."});
+    }
+
+    [HttpGet("is-admin")]
+    public IActionResult IsAdmin()
+    {
+        bool isAdmin = User.Identity?.IsAuthenticated == true && User.IsInRole("Admin");
+        return Ok(new { isAdmin });
     }
 }

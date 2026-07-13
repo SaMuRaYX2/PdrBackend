@@ -7,4 +7,5 @@ public interface IQuestionRepository
     Task<Question?> GetByIdAsync(Guid id);
     Task AddAsync(Question question);
     Task SaveChangesAsync();
+    Task DeleteAsync(Guid id);
 }

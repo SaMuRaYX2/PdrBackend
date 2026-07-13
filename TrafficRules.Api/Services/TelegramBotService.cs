@@ -113,6 +113,25 @@ public class TelegramBotService : BackgroundService
 
     private async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken ct)
     {
+        if (update.Type == UpdateType.CallbackQuery && update.CallbackQuery != null)
+        {
+            var cq = update.CallbackQuery;
+            var cqChatId = cq.Message!.Chat.Id;
+            if (cq.Data == "save_scraped" && _drafts.TryGetValue(cqChatId, out var draftToSave))
+            {
+                await SaveQuestionAsync(cqChatId, draftToSave, ct);
+                _userStates[cqChatId] = AdminState.Idle;
+                await botClient.SendMessage(cqChatId, "✅ Питання успішно збережено в базу!", replyMarkup: new ReplyKeyboardRemove(), cancellationToken: ct);
+            }
+            else if (cq.Data == "cancel_scraped")
+            {
+                _userStates[cqChatId] = AdminState.Idle;
+                await botClient.SendMessage(cqChatId, "❌ Питання відхилено.", replyMarkup: new ReplyKeyboardRemove(), cancellationToken: ct);
+            }
+            await botClient.AnswerCallbackQuery(cq.Id, cancellationToken: ct);
+            return;
+        }
+
         if (update.Message is not { } message) return;
 
         var chatId = message.Chat.Id;
@@ -564,6 +583,51 @@ public class TelegramBotService : BackgroundService
         QuestionType.ShortAnswer    => "Коротка відповідь",
         _                           => "Невідомий тип"
     };
+
+    public async Task SendDraftToAdminAsync(QuestionDraft draft, CancellationToken ct = default)
+    {
+        if (!_userStates.Any())
+        {
+            _logger.LogWarning("No active admin chats found. Cannot send scraped draft.");
+            return;
+        }
+
+        var chatId = _userStates.Keys.First(); // Відправляємо першому відомому адміну
+
+        _drafts[chatId] = draft;
+        _userStates[chatId] = AdminState.WaitingForExplanation;
+
+        var msg = $"🆕 *Нове питання від парсера!*\n\n" +
+                  $"*Тип:* {GetTypeName(draft.Type)}\n" +
+                  $"*Текст:* {draft.Text}\n";
+                  
+        if (draft.Type == QuestionType.SingleChoice || draft.Type == QuestionType.MultipleChoice)
+        {
+            msg += "*Відповіді:*\n" + string.Join("\n", draft.Answers.Select((a, i) => $"{(draft.CorrectAnswerIndices.Contains(i+1) ? "✅" : "❌")} {a}")) + "\n";
+        }
+        
+        if (!string.IsNullOrEmpty(draft.Explanation))
+        {
+            msg += $"\n*Пояснення:* {draft.Explanation}\n";
+        }
+
+        if (!string.IsNullOrEmpty(draft.ImageUrl))
+        {
+            // Потрібно надіслати картинку
+            msg += $"\n*Зображення:* завантажено ({draft.ImageUrl})";
+        }
+
+        var inlineKeyboard = new InlineKeyboardMarkup(new[]
+        {
+            new []
+            {
+                InlineKeyboardButton.WithCallbackData("✅ Зберегти", "save_scraped"),
+                InlineKeyboardButton.WithCallbackData("❌ Відхилити", "cancel_scraped")
+            }
+        });
+
+        await _botClient.SendMessage(chatId, msg, parseMode: ParseMode.Markdown, replyMarkup: inlineKeyboard, cancellationToken: ct);
+    }
 
     private Task HandlePollingErrorAsync(ITelegramBotClient botClient, Exception exception, CancellationToken ct)
     {

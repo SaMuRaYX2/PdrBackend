@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using TrafficRules.Domain.Entities;
 using TrafficRules.Domain.Constants;
+using Microsoft.AspNetCore.Identity;
 
 namespace TrafficRules.Infrastructure.Data;
 
@@ -68,6 +69,14 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             new Category { Id = CategoryConstants.RoadMarkingsId, Name = "34. Дорожня розмітка" },
             new Category { Id = CategoryConstants.MedicineId, Name = "Медична допомога" }
         );
+        
+        var adminRoleId = "b50a741a-0cfe-4196-aa42-5a759347a851";
+        modelBuilder.Entity<IdentityRole>().HasData( new IdentityRole
+        {
+            Id = adminRoleId,
+            Name = "Admin",
+            NormalizedName = "ADMIN"
+        });
         
     }
     
